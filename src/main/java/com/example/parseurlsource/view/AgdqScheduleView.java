@@ -1,5 +1,10 @@
 package com.example.parseurlsource.view;
 
+import java.io.IOException;
+
+import org.jsoup.HttpStatusException;
+import org.tepi.filtertable.FilterTable;
+
 import com.example.parseurlsource.parser.JsoupUrlParser;
 import com.example.parseurlsource.table.AgdqScheduleTable;
 import com.vaadin.navigator.View;
@@ -29,8 +34,20 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 		initLayout();
 	}
 
+	@Override
+	public void enter(ViewChangeEvent event) {
+	}
+
 	private void initTable() {
 		table = new AgdqScheduleTable();
+		try {
+			table.refresh();
+		} catch (HttpStatusException e) {
+			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void initLayout() {
@@ -55,10 +72,6 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 		this.setExpandRatio(tableLayout, 1);
 	}
 
-	@Override
-	public void enter(ViewChangeEvent event) {
-	}
-
 	private void initButtons() {
 		refreshTable = new Button("Refresh table");
 
@@ -74,8 +87,15 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 	private void updateTable(String url) {
 		JsoupUrlParser urlParser = new JsoupUrlParser();
 		urlParser.setUrl(url);
-		table.refresh();
-		Notification.show("Table refreshed!", Type.HUMANIZED_MESSAGE);
+		try {
+			table.refresh();
+			Notification.show("Table refreshed!", Type.HUMANIZED_MESSAGE);
+		} catch (HttpStatusException e) {
+			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

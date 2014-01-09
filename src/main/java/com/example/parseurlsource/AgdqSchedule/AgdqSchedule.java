@@ -2,6 +2,11 @@ package com.example.parseurlsource.AgdqSchedule;
 
 import java.util.Date;
 
+/**
+ * @author Gildur
+ *
+ *	A simple POJO
+ */
 public class AgdqSchedule {
 
 	private Date startTime;

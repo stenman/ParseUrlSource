@@ -1,8 +1,10 @@
 package com.example.parseurlsource.table;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.jsoup.HttpStatusException;
 import org.tepi.filtertable.FilterTable;
 
 import com.example.parseurlsource.container.AgdqScheduleContainer;
@@ -32,9 +34,12 @@ public class AgdqScheduleTable extends FilterTable {
 		initContainer();
 		initTable();
 		activateColorMarkingOfRows();
-		refresh();
 	}
 
+	public void refreshTable() throws HttpStatusException, IOException{
+		refresh();
+	}
+	
 	private void initTable() {
 		this.setImmediate(true);
 		this.setSizeFull();
@@ -49,7 +54,7 @@ public class AgdqScheduleTable extends FilterTable {
 		this.setContainerDataSource(container);
 	}
 
-	public void refresh() {
+	public void refresh() throws HttpStatusException, IOException {
 		jsoupUrlParser = new JsoupUrlParser();
 		jsoupUrlParser.setUrl("http://gamesdonequick.com/schedule");
 		container.addItems(jsoupUrlParser.getScheduleItems());

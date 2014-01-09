@@ -1,5 +1,9 @@
 package com.example.parseurlsource.view;
 
+import java.io.IOException;
+
+import org.jsoup.HttpStatusException;
+
 import com.example.parseurlsource.parser.JsoupUrlParser;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -8,6 +12,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
@@ -42,11 +48,11 @@ public class SourcePresenterView extends VerticalLayout implements View {
 		menuItem1.addComponent(parseUrl);
 		menuItem1.setComponentAlignment(parseUrl, Alignment.BOTTOM_LEFT);
 		menuItem1.addComponent(urlToParse);
-		
+
 		tableLayout.addComponent(label);
-		
+
 		menuLayout.addComponent(menuItem1);
-		
+
 		this.addComponent(menuLayout);
 		this.addComponent(tableLayout);
 
@@ -76,7 +82,14 @@ public class SourcePresenterView extends VerticalLayout implements View {
 	private void updateTable(String url) {
 		JsoupUrlParser urlParser = new JsoupUrlParser();
 		urlParser.setUrl(url);
-		label.setValue(urlParser.getTitle());
+		try {
+			label.setValue(urlParser.getTitle());
+		} catch (HttpStatusException e) {
+			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
