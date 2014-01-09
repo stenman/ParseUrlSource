@@ -16,7 +16,7 @@ public class AgdqScheduleContainer extends IndexedContainer {
 	}
 	
 	private void addProperties() {
-		this.addContainerProperty("startTime", Date.class, "N/A");
+		this.addContainerProperty("startTime", Date.class, null);
 		this.addContainerProperty("game", String.class, "N/A");
 		this.addContainerProperty("runners", String.class, "N/A");
 		this.addContainerProperty("runTime", String.class, "N/A");
@@ -29,32 +29,18 @@ public class AgdqScheduleContainer extends IndexedContainer {
 	public void addItems(List<AgdqSchedule> agdqSchedules){
 
 		this.removeAllItems();
-		
-		for (AgdqSchedule agdqSchedule : agdqSchedules) {
-			Object itemId = this.addItem();
-			
-			Item item = this.getItem(itemId);
+		this.removeAllContainerFilters();
+		this.removeAllFilters();
 
-			Property<Date> startTimeProperty = item.getItemProperty("startTime");
-			startTimeProperty.setValue(agdqSchedule.getStartTime());
-			
-			Property<String> gameProperty = item.getItemProperty("game");
-			gameProperty.setValue(agdqSchedule.getGame());
-			
-			Property<String> runnersProperty = item.getItemProperty("runners");
-			runnersProperty.setValue(agdqSchedule.getRunners());
-			
-			Property<String> runTimeProperty = item.getItemProperty("runTime");
-			runTimeProperty.setValue(agdqSchedule.getRunTime());
-			
-			Property<String> detailsProperty = item.getItemProperty("details");
-			detailsProperty.setValue(agdqSchedule.getDetails());
-			
-			Property<String> commentatorsProperty = item.getItemProperty("commentators");
-			commentatorsProperty.setValue(agdqSchedule.getCommentators());
-			
-			Property<String> prizesProperty = item.getItemProperty("prizes");
-			prizesProperty.setValue(agdqSchedule.getPrizes());
+		for (AgdqSchedule agdqSchedule : agdqSchedules) {
+			Object itemId = addItem();
+			getContainerProperty(itemId, "startTime").setValue(agdqSchedule.getStartTime());
+			getContainerProperty(itemId, "game").setValue(agdqSchedule.getGame());
+			getContainerProperty(itemId, "runners").setValue(agdqSchedule.getRunners());
+			getContainerProperty(itemId, "runTime").setValue(agdqSchedule.getRunTime());
+			getContainerProperty(itemId, "details").setValue(agdqSchedule.getDetails());
+			getContainerProperty(itemId, "commentators").setValue(agdqSchedule.getCommentators());
+			getContainerProperty(itemId, "prizes").setValue(agdqSchedule.getPrizes());
 		}
 	}
 	

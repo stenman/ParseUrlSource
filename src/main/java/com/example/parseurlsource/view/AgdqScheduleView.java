@@ -79,14 +79,12 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				updateTable("http://gamesdonequick.com/schedule");
+				updateTable();
 			}
 		});
 	}
 
-	private void updateTable(String url) {
-		JsoupUrlParser urlParser = new JsoupUrlParser();
-		urlParser.setUrl(url);
+	private void updateTable() {
 		try {
 			table.refresh();
 			Notification.show("Table refreshed!", Type.HUMANIZED_MESSAGE);
