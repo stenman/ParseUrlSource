@@ -13,8 +13,6 @@ import com.example.parseurlsource.container.AgdqScheduleContainer;
 import com.example.parseurlsource.parser.JsoupUrlParser;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.ui.CustomTable;
-import com.vaadin.ui.Table;
 
 /**
  * The main table of this application
