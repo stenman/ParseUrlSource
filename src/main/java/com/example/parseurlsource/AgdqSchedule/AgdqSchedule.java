@@ -3,9 +3,10 @@ package com.example.parseurlsource.AgdqSchedule;
 import java.util.Date;
 
 /**
- * @author Gildur
- *
- *	A simple POJO
+ * A simple POJO of AgqdSchedule entities.
+ * 
+ * @author Roger
+ * 
  */
 public class AgdqSchedule {
 
@@ -16,7 +17,6 @@ public class AgdqSchedule {
 	private String details;
 	private String commentators;
 	private String prizes;
-
 
 	public String getGame() {
 		return game;

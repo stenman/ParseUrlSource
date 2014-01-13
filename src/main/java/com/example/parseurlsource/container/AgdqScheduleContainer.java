@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.example.parseurlsource.AgdqSchedule.AgdqSchedule;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 
 @SuppressWarnings("serial")
@@ -14,7 +12,10 @@ public class AgdqScheduleContainer extends IndexedContainer {
 	public AgdqScheduleContainer() {
 		addProperties();
 	}
-	
+
+	/**
+	 * Adds properties to the container. Properties could be seen as "columns" in a table.
+	 */
 	private void addProperties() {
 		this.addContainerProperty("startTime", Date.class, null);
 		this.addContainerProperty("game", String.class, "N/A");
@@ -24,10 +25,15 @@ public class AgdqScheduleContainer extends IndexedContainer {
 		this.addContainerProperty("commentators", String.class, "N/A");
 		this.addContainerProperty("prizes", String.class, "N/A");
 	}
-	
-	@SuppressWarnings("unchecked")
-	public void addItems(List<AgdqSchedule> agdqSchedules){
 
+	/**
+	 * Removes the current items and filters from the container, then adds the provided list of objects (AgdqSchedules) as Items to the container. An
+	 * item can be seen as a "row" in a table.
+	 * 
+	 * @param agdqSchedules
+	 */
+	@SuppressWarnings("unchecked")
+	public void addItems(List<AgdqSchedule> agdqSchedules) {
 		this.removeAllItems();
 		this.removeAllContainerFilters();
 		this.removeAllFilters();
@@ -43,5 +49,5 @@ public class AgdqScheduleContainer extends IndexedContainer {
 			getContainerProperty(itemId, "prizes").setValue(agdqSchedule.getPrizes());
 		}
 	}
-	
+
 }

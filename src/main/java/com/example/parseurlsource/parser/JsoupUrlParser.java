@@ -14,6 +14,12 @@ import org.jsoup.select.Elements;
 import com.example.parseurlsource.AgdqSchedule.AgdqSchedule;
 import com.example.parseurlsource.utils.DateConverter;
 
+/**
+ * Parses an HTML page source
+ * 
+ * @author Roger
+ * 
+ */
 public class JsoupUrlParser extends UrlParser {
 
 	private String url;
@@ -27,11 +33,13 @@ public class JsoupUrlParser extends UrlParser {
 		doc = response.parse();
 	}
 
-	public String getTitle() throws HttpStatusException, IOException {
-		setDoc();
-		return doc.title();
-	}
-
+	/**
+	 * Fetches a list of AgdqSchedule items by parsing the HTML source and reading the table row tag elements.
+	 * 
+	 * @return A List of AgdqSchedule items
+	 * @throws HttpStatusException
+	 * @throws IOException
+	 */
 	public List<AgdqSchedule> getScheduleItems() throws HttpStatusException, IOException {
 
 		setDoc();

@@ -8,6 +8,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parses an HTML page source the standard Java way.
+ * 
+ * @author Roger
+ * 
+ */
 public class StandardJavaUrlParser extends UrlParser {
 
 	private URL url;

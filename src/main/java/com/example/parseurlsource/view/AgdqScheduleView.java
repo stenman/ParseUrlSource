@@ -3,21 +3,25 @@ package com.example.parseurlsource.view;
 import java.io.IOException;
 
 import org.jsoup.HttpStatusException;
-import org.tepi.filtertable.FilterTable;
 
-import com.example.parseurlsource.parser.JsoupUrlParser;
 import com.example.parseurlsource.table.AgdqScheduleTable;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
 
+/**
+ * Presents a table that contains the schedule of AGDQ and a refresh button
+ * 
+ * @author Roger
+ * 
+ */
 @SuppressWarnings("serial")
 public class AgdqScheduleView extends VerticalLayout implements View {
 
@@ -91,7 +95,7 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 		} catch (HttpStatusException e) {
 			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}

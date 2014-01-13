@@ -16,12 +16,19 @@ import com.vaadin.data.Property;
 import com.vaadin.ui.CustomTable;
 import com.vaadin.ui.Table;
 
+/**
+ * The main table of this application
+ * 
+ * @author Roger
+ * 
+ */
 @SuppressWarnings("serial")
 public class AgdqScheduleTable extends FilterTable {
 
 	private AgdqScheduleContainer container;
 	private JsoupUrlParser jsoupUrlParser;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected String formatPropertyValue(Object rowId, Object colId, Property property) {
 		Object v = property.getValue();
@@ -38,6 +45,7 @@ public class AgdqScheduleTable extends FilterTable {
 		activateColorMarkingOfRows();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initTable() {
 		this.setImmediate(true);
 		this.setSizeFull();
@@ -68,7 +76,7 @@ public class AgdqScheduleTable extends FilterTable {
 			Date date = (Date) item.getItemProperty("startTime").getValue();
 			DateTime startTime = new DateTime(date);
 
-			if(startTime.isAfterNow()){
+			if (startTime.isAfterNow()) {
 				currentSpeedrun = iid - 1;
 				break;
 			}
