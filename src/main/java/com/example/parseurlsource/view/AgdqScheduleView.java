@@ -49,7 +49,6 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 		} catch (HttpStatusException e) {
 			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

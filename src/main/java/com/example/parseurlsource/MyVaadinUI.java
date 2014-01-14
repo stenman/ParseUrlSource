@@ -16,7 +16,7 @@ import com.vaadin.ui.UI;
  * @author Roger
  * 
  */
-@Theme("mytheme")
+@Theme("agdqtheme")
 @SuppressWarnings("serial")
 public class MyVaadinUI extends UI {
 

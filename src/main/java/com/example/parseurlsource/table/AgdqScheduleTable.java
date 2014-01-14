@@ -13,6 +13,7 @@ import com.example.parseurlsource.container.AgdqScheduleContainer;
 import com.example.parseurlsource.parser.JsoupUrlParser;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.ui.CustomTable;
 
 /**
  * The main table of this application
@@ -25,6 +26,8 @@ public class AgdqScheduleTable extends FilterTable {
 
 	private AgdqScheduleContainer container;
 	private JsoupUrlParser jsoupUrlParser;
+
+	private int currentSpeedrun = 0;
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -50,7 +53,7 @@ public class AgdqScheduleTable extends FilterTable {
 		this.setRowHeaderMode(ROW_HEADER_MODE_INDEX);
 		this.setFooterVisible(true);
 		this.setFilterBarVisible(true);
-		this.setSelectable(false);
+		this.setSelectable(true);
 	}
 
 	private void initContainer() {
@@ -67,7 +70,6 @@ public class AgdqScheduleTable extends FilterTable {
 
 	private void activateColorMarkingOfRows() {
 		// TODO: Will use this method until I figure out how to mark rows by CSS/SASS-injection
-		int currentSpeedrun = 0;
 		for (Iterator<?> i = container.getItemIds().iterator(); i.hasNext();) {
 			int iid = (Integer) i.next();
 			Item item = container.getItem(iid);
@@ -79,29 +81,23 @@ public class AgdqScheduleTable extends FilterTable {
 				break;
 			}
 		}
-		this.select(currentSpeedrun);
 
-		// TODO: the color marking below is currently not working, google "vaadin table row color example" for help
-		// this.setCellStyleGenerator(new FilterTable.CellStyleGenerator() {
-		// @Override
-		// public String getStyle(CustomTable source, Object itemId, Object propertyId) {
-		// if (propertyId == null) {
-		//
-		// // Styling for row
-		// Item item = getItem(itemId);
-		// String game = (String) item.getItemProperty("game").getValue();
-		// if (game.toLowerCase().startsWith("g")) {
-		// return "highlight-green";
-		// } else if (game.contains("o")) {
-		// return "highlight-red";
-		// } else {
-		// return null;
-		// }
-		// } else {
-		// // styling for column propertyId
-		// return null;
-		// }
-		// }
-		// });
+		this.setCellStyleGenerator(new FilterTable.CellStyleGenerator() {
+			@Override
+			public String getStyle(CustomTable source, Object itemId, Object propertyId) {
+				if (propertyId == null) {
+
+					// Styling for row
+					if ((Integer) itemId == currentSpeedrun) {
+						return "highlight-green";
+					} else {
+						return null;
+					}
+				} else {
+					// styling for column propertyId
+					return null;
+				}
+			}
+		});
 	}
 }
