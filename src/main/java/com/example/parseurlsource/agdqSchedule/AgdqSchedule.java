@@ -1,4 +1,4 @@
-package com.example.parseurlsource.AgdqSchedule;
+package com.example.parseurlsource.agdqSchedule;
 
 import java.util.Date;
 

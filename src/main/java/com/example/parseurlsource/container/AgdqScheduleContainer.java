@@ -3,7 +3,7 @@ package com.example.parseurlsource.container;
 import java.util.Date;
 import java.util.List;
 
-import com.example.parseurlsource.AgdqSchedule.AgdqSchedule;
+import com.example.parseurlsource.agdqSchedule.AgdqSchedule;
 import com.vaadin.data.util.IndexedContainer;
 
 @SuppressWarnings("serial")
