@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.example.parseurlsource.agdqSchedule.AgdqSchedule;
+import com.example.parseurlsource.domainmodel.AgdqSchedule;
 import com.example.parseurlsource.utils.DateConverter;
 
 /**
