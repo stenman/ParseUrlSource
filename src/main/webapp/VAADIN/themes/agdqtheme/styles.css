@@ -1,0 +1,11 @@
+@import "../reindeer/legacy-styles.css";
+
+.v-table-row.v-table-row-highlight-green,.v-table-row-odd.v-table-row-highlight-green
+	{
+	background-color: #66FFA1;
+}
+
+.v-table-row.v-table-row-highlight-red,.v-table-row-odd.v-table-row-highlight-red
+	{
+	background-color: #FF9375;
+}
