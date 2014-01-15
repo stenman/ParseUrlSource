@@ -9,9 +9,24 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
 		<vaadin.version>7.1.9</vaadin.version>
-		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+		<vaadin-plugin.version>${vaadin.version}</vaadin-plugin.version>
+		<joda-time.version>2.3</joda-time.version>
+		<jsoup.version>1.7.3</jsoup.version>
+		<filteringtable.version>0.9.3.v7</filteringtable.version>
+		<java-servlet-api.version>3.0.1</java-servlet-api.version>
+		<spring-vaadin-integration.version>2.0.2</spring-vaadin-integration.version>
+		<maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-war-plugin.version>2.4</maven-war-plugin.version>
+		<springframework.version>4.0.0.RELEASE</springframework.version>
+		<javax.inject.version>1</javax.inject.version>
+		<javax-servlet-api.version>3.1.0</javax-servlet-api.version>
+		<org.slf4j-version>1.7.5</org.slf4j-version>
+		<logback-version>1.0.13</logback-version>
 	</properties>
+	
 	<repositories>
 		<repository>
 			<id>vaadin-addons</id>
@@ -28,6 +43,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>vaadin-snapshots</id>
@@ -40,26 +56,27 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	
 	<dependencies>
 
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>2.3</version>
+			<version>${joda-time.version}</version>
 		</dependency>
 
 		<!-- jsoup HTML parser library @ http://jsoup.org/ -->
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.7.3</version>
+			<version>${jsoup.version}</version>
 		</dependency>
 
 		<!-- Filtering Table Addon -->
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
 			<artifactId>filteringtable</artifactId>
-			<version>0.9.3.v7</version>
+			<version>${filteringtable.version}</version>
 		</dependency>
 
 		<!-- Vaadin dependencies -->
@@ -96,9 +113,82 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<version>${java-servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax-servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${springframework.version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${springframework.version}</version>
+		</dependency>
+
+		<!-- Spring-Vaadin-Integration -->
+		<dependency>
+			<groupId>ru.xpoft.vaadin</groupId>
+			<artifactId>spring-vaadin-integration</artifactId>
+			<version>${spring-vaadin-integration.version}</version>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback-version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -106,17 +196,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 			<!-- As we are doing "inplace" GWT compilation, ensure the widgetset -->
 			<!-- directory is cleaned properly -->
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.5</version>
+				<version>${maven-clean-plugin.version}</version>
 				<configuration>
 					<filesets>
 						<fileset>
@@ -131,7 +221,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
+				<version>${maven-war-plugin.version}</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
@@ -139,7 +229,7 @@
 			<plugin>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>${vaadin.plugin.version}</version>
+				<version>${vaadin-plugin.version}</version>
 				<configuration>
 					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
 					<!-- <runTarget>mobilemail</runTarget> -->

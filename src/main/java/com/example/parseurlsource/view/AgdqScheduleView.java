@@ -15,6 +15,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
 /**
  * Presents a table that contains the schedule of AGDQ and a refresh button
@@ -59,8 +60,6 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 
 		menuLayout = new HorizontalLayout();
 		tableLayout = new HorizontalLayout();
-
-		menuLayout.setMargin(true);
 
 		menuLayout.addComponent(refreshTable);
 		menuLayout.setComponentAlignment(refreshTable, Alignment.BOTTOM_LEFT);
