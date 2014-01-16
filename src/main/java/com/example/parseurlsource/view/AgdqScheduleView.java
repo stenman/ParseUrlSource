@@ -2,7 +2,14 @@ package com.example.parseurlsource.view;
 
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.jsoup.HttpStatusException;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import ru.xpoft.vaadin.VaadinView;
 
 import com.example.parseurlsource.table.AgdqScheduleTable;
 import com.vaadin.navigator.View;
@@ -15,7 +22,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * Presents a table that contains the schedule of AGDQ and a refresh button
@@ -23,19 +29,28 @@ import com.vaadin.ui.themes.Reindeer;
  * @author Roger
  * 
  */
+@Component
+@Scope("prototype")
+@VaadinView(value = AgdqScheduleView.NAME, cached = true)
 @SuppressWarnings("serial")
 public class AgdqScheduleView extends VerticalLayout implements View {
+
+	@Inject
+	private AgdqScheduleTable agdqScheduleTable;
 
 	public static final String NAME = "";
 
 	private HorizontalLayout menuLayout;
 	private HorizontalLayout tableLayout;
 	private Button refreshTable;
-	private AgdqScheduleTable table;
 
 	public AgdqScheduleView() {
 		initButtons();
-		initTable();
+	}
+
+	@PostConstruct
+	public void PostConstruct() {
+		refreshTable();
 		initLayout();
 	}
 
@@ -43,10 +58,9 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 	}
 
-	private void initTable() {
-		table = new AgdqScheduleTable();
+	private void refreshTable() {
 		try {
-			table.refresh();
+			agdqScheduleTable.refresh();
 		} catch (HttpStatusException e) {
 			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
 		} catch (IOException e) {
@@ -66,7 +80,7 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 
 		tableLayout.setSizeFull();
 
-		tableLayout.addComponent(table);
+		tableLayout.addComponent(agdqScheduleTable);
 
 		this.addComponent(menuLayout);
 		this.addComponent(tableLayout);
@@ -88,7 +102,7 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 
 	private void updateTable() {
 		try {
-			table.refresh();
+			agdqScheduleTable.refresh();
 			Notification.show("Table refreshed!", Type.HUMANIZED_MESSAGE);
 		} catch (HttpStatusException e) {
 			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);

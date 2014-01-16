@@ -6,12 +6,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 /**
  * Helps with converting to and from java.util.Date objects
  * 
  * @author Roger
  * 
  */
+@Component
+@Scope("prototype")
 public class DateConverter {
 
 	/**

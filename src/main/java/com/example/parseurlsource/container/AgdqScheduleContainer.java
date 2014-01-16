@@ -3,9 +3,20 @@ package com.example.parseurlsource.container;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.example.parseurlsource.domainmodel.AgdqSchedule;
 import com.vaadin.data.util.IndexedContainer;
 
+/**
+ * Contains AGDQSchedule data
+ * 
+ * @author Roger
+ *
+ */
+@Component
+@Scope("prototype")
 @SuppressWarnings("serial")
 public class AgdqScheduleContainer extends IndexedContainer {
 

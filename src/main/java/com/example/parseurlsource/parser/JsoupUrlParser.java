@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.example.parseurlsource.domainmodel.AgdqSchedule;
 import com.example.parseurlsource.utils.DateConverter;
@@ -20,31 +24,39 @@ import com.example.parseurlsource.utils.DateConverter;
  * @author Roger
  * 
  */
+@Component
+@Scope("prototype")
 public class JsoupUrlParser extends UrlParser {
 
-	private String url;
-	private Document doc;
+	@Inject
+	private DateConverter dateConverter;
 
-	private void setDoc() throws HttpStatusException, IOException {
-		doc = null;
+	private String url;
+
+	/**
+	 * Connects to the url (set by setUrl() in this class) and generates a response.
+	 * 
+	 * @return A parsed Response object in form of a Document.
+	 * @throws HttpStatusException
+	 * @throws IOException
+	 */
+	public Document setDoc() throws HttpStatusException, IOException {
 		Response response = Jsoup.connect(url).ignoreContentType(true)
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").referrer("http://www.google.com")
 				.timeout(12000).followRedirects(true).execute();
-		doc = response.parse();
+		return response.parse();
 	}
 
 	/**
 	 * Fetches a list of AgdqSchedule items by parsing the HTML source and reading the table row tag elements.
 	 * 
-	 * @return A List of AgdqSchedule items
+	 * @param doc
+	 *            The Jsoup Document to parse.
+	 * @return A List of AGDQSchedule objects that were parsed from the provided Document.
 	 * @throws HttpStatusException
 	 * @throws IOException
 	 */
-	public List<AgdqSchedule> getScheduleItems() throws HttpStatusException, IOException {
-
-		setDoc();
-
-		DateConverter dateConverter = new DateConverter();
+	public List<AgdqSchedule> getScheduleItems(Document doc) throws HttpStatusException, IOException {
 
 		boolean isFirstRowProcessed = false;
 
@@ -85,5 +97,4 @@ public class JsoupUrlParser extends UrlParser {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 }

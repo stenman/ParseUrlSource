@@ -4,12 +4,12 @@
 
 	<display-name>AGDQ Schedule parser</display-name>
 
-	<!-- Spring -->
+	<!-- Bootstrap listener to start up Springs root WebApplicationContext. Simply delegates to ContextLoader -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<!-- RequestContextListener is needed because we are not withing Springs own web support, which uses DispatcherServlet -->
 	<listener>
-		<!-- To allow session-scoped beans -->
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	<context-param>

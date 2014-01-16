@@ -5,8 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.jsoup.HttpStatusException;
+import org.jsoup.nodes.Document;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.tepi.filtertable.FilterTable;
 
 import com.example.parseurlsource.container.AgdqScheduleContainer;
@@ -21,10 +27,14 @@ import com.vaadin.ui.CustomTable;
  * @author Roger
  * 
  */
+@Component
+@Scope("prototype")
 @SuppressWarnings("serial")
 public class AgdqScheduleTable extends FilterTable {
 
-	private AgdqScheduleContainer container;
+	@Inject
+	private AgdqScheduleContainer agdqScheduleContainer;
+	@Inject
 	private JsoupUrlParser jsoupUrlParser;
 
 	private int currentSpeedrun = 0;
@@ -40,10 +50,10 @@ public class AgdqScheduleTable extends FilterTable {
 		return super.formatPropertyValue(rowId, colId, property);
 	}
 
-	public AgdqScheduleTable() {
+	@PostConstruct
+	public void PostConstruct() {
 		initContainer();
 		initTable();
-		activateColorMarkingOfRows();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -57,22 +67,39 @@ public class AgdqScheduleTable extends FilterTable {
 	}
 
 	private void initContainer() {
-		container = new AgdqScheduleContainer();
-		this.setContainerDataSource(container);
+		this.setContainerDataSource(agdqScheduleContainer);
 	}
 
+	/**
+	 * Updates the table with fresh data.
+	 * 
+	 * @throws HttpStatusException
+	 * @throws IOException
+	 */
 	public void refresh() throws HttpStatusException, IOException {
-		jsoupUrlParser = new JsoupUrlParser();
+		// TODO: Until I find a better way of switching between environments...
+		// PRODUCTION
 		jsoupUrlParser.setUrl("http://gamesdonequick.com/schedule");
-		container.addItems(jsoupUrlParser.getScheduleItems());
+		Document doc = jsoupUrlParser.setDoc();
+		agdqScheduleContainer.addItems(jsoupUrlParser.getScheduleItems(doc));
+		// PRODUCTION
+
+		// DEVELOPMENT
+		// File file = new File("c:/temp/agdqschedule.html");
+		// Document doc = Jsoup.parse(file, "UTF-8", "http://example.com/");
+		// agdqScheduleContainer.addItems(jsoupUrlParser.getScheduleItems(doc));
+		// DEVELOPMENT
+
 		activateColorMarkingOfRows();
 	}
 
+	/**
+	 * Marks the row of the current speedrun with a green background.
+	 */
 	private void activateColorMarkingOfRows() {
-		// TODO: Will use this method until I figure out how to mark rows by CSS/SASS-injection
-		for (Iterator<?> i = container.getItemIds().iterator(); i.hasNext();) {
+		for (Iterator<?> i = agdqScheduleContainer.getItemIds().iterator(); i.hasNext();) {
 			int iid = (Integer) i.next();
-			Item item = container.getItem(iid);
+			Item item = agdqScheduleContainer.getItem(iid);
 			Date date = (Date) item.getItemProperty("startTime").getValue();
 			DateTime startTime = new DateTime(date);
 
