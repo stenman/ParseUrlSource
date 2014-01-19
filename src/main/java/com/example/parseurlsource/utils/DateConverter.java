@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 public class DateConverter {
 
 	private static final Logger logger = LoggerFactory.getLogger(DateConverter.class);
-	
+
 	/**
 	 * Converts a String to a Date object.
 	 * 
@@ -42,6 +42,39 @@ public class DateConverter {
 			logger.warn(String.format("Failed to convert String to Date. Exception: %s", pe));
 		}
 		return null;
+	}
 
+	/**
+	 * Adds time to a provided Date object. There is probably a better way of doing this, but for now, this will have to do.
+	 * 
+	 * @param date
+	 *            The Date object to add time to.
+	 * @param year
+	 *            Number of years to add.
+	 * @param month
+	 *            Number of months to add.
+	 * @param day
+	 *            Number of days to add.
+	 * @param hour
+	 *            Number of hours to add.
+	 * @param minute
+	 *            Number of minutes to add.
+	 * @param second
+	 *            Number of seconds to add.
+	 * @param millisecond
+	 *            Number of milliseconds to add.
+	 * @return A Date object with the added time.
+	 */
+	public Date addTimeToDate(Date date, int year, int month, int day, int hour, int minute, int second, int millisecond) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.YEAR, year);
+		cal.add(Calendar.MONTH, month);
+		cal.add(Calendar.DAY_OF_MONTH, day);
+		cal.add(Calendar.HOUR_OF_DAY, hour);
+		cal.add(Calendar.MINUTE, minute);
+		cal.add(Calendar.SECOND, second);
+		cal.add(Calendar.MILLISECOND, millisecond);
+		return cal.getTime();
 	}
 }

@@ -89,7 +89,6 @@ public class AgdqScheduleTable extends FilterTable {
 		Document doc = jsoupUrlParser.setDoc();
 		logger.debug(String.format("Jsoup Document set: %s", doc != null));
 		agdqScheduleContainer.addItems(jsoupUrlParser.getScheduleItems(doc));
-
 		activateColorMarkingOfRows();
 	}
 
