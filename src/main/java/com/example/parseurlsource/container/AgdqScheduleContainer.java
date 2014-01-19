@@ -3,6 +3,8 @@ package com.example.parseurlsource.container;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +22,11 @@ import com.vaadin.data.util.IndexedContainer;
 @SuppressWarnings("serial")
 public class AgdqScheduleContainer extends IndexedContainer {
 
+	private static final Logger logger = LoggerFactory.getLogger(AgdqScheduleContainer.class);
+	
 	public AgdqScheduleContainer() {
 		addProperties();
+		logger.info("Properties added to container.");
 	}
 
 	/**

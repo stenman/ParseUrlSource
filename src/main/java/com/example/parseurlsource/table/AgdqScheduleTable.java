@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import org.joda.time.DateTime;
 import org.jsoup.HttpStatusException;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.tepi.filtertable.FilterTable;
@@ -32,10 +34,14 @@ import com.vaadin.ui.CustomTable;
 @SuppressWarnings("serial")
 public class AgdqScheduleTable extends FilterTable {
 
+	private static final Logger logger = LoggerFactory.getLogger(AgdqScheduleTable.class);
+
 	@Inject
 	private AgdqScheduleContainer agdqScheduleContainer;
 	@Inject
 	private JsoupUrlParser jsoupUrlParser;
+
+	private static final String URL = "http://gamesdonequick.com/schedule";
 
 	private int currentSpeedrun = 0;
 
@@ -64,10 +70,12 @@ public class AgdqScheduleTable extends FilterTable {
 		this.setFooterVisible(true);
 		this.setFilterBarVisible(true);
 		this.setSelectable(true);
+		logger.info("Table initialization completed.");
 	}
 
 	private void initContainer() {
 		this.setContainerDataSource(agdqScheduleContainer);
+		logger.info("Table DataSource set to container.");
 	}
 
 	/**
@@ -77,18 +85,12 @@ public class AgdqScheduleTable extends FilterTable {
 	 * @throws IOException
 	 */
 	public void refresh() throws HttpStatusException, IOException {
-		// TODO: Until I find a better way of switching between environments...
-		// PRODUCTION
-		jsoupUrlParser.setUrl("http://gamesdonequick.com/schedule");
+		jsoupUrlParser.setUrl(URL);
+		logger.debug(String.format("URL set to: %s", URL));
 		Document doc = jsoupUrlParser.setDoc();
+		logger.debug(String.format("Jsoup Document set: %s", doc != null));
 		agdqScheduleContainer.addItems(jsoupUrlParser.getScheduleItems(doc));
-		// PRODUCTION
-
-		// DEVELOPMENT
-		// File file = new File("c:/temp/agdqschedule.html");
-		// Document doc = Jsoup.parse(file, "UTF-8", "http://example.com/");
-		// agdqScheduleContainer.addItems(jsoupUrlParser.getScheduleItems(doc));
-		// DEVELOPMENT
+		logger.debug("Table refreshed successfully.");
 
 		activateColorMarkingOfRows();
 	}
@@ -105,6 +107,7 @@ public class AgdqScheduleTable extends FilterTable {
 
 			if (startTime.isAfterNow()) {
 				currentSpeedrun = iid - 1;
+				logger.debug(String.format("Current speedrun set to: %s", currentSpeedrun));
 				break;
 			}
 		}
@@ -116,6 +119,7 @@ public class AgdqScheduleTable extends FilterTable {
 
 					// Styling for row
 					if ((Integer) itemId == currentSpeedrun) {
+						logger.debug(String.format("Highlighting current speedrun."));
 						return "highlight-green";
 					} else {
 						return null;

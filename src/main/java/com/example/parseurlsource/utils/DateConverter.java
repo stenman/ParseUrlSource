@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class DateConverter {
 
+	private static final Logger logger = LoggerFactory.getLogger(DateConverter.class);
+	
 	/**
 	 * Converts a String to a Date object.
 	 * 
@@ -34,8 +38,8 @@ public class DateConverter {
 			cal.setTime(date);
 			cal.add(Calendar.HOUR_OF_DAY, 6);
 			return cal.getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
+		} catch (ParseException pe) {
+			logger.debug(String.format("Failed to convert String to Date. Exception: %s", pe));
 		}
 		return null;
 

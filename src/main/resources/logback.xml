@@ -30,6 +30,6 @@
 		<appender-ref ref="STDOUT" />
 	</root>
 
-	<logger name="com.example.parseurlsource" level="ALL" />
-	<logger name="com.example.parseurlsource" level="ERROR" />
+	<!-- Enable to get logging on specific packages -->
+	<!-- <logger name="com.example.parseurlsource" level="INFO" /> -->
 </configuration>

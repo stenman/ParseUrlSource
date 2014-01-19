@@ -12,11 +12,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.example.parseurlsource.domainmodel.AgdqSchedule;
 import com.example.parseurlsource.utils.DateConverter;
+import com.example.parseurlsource.view.AgdqScheduleView;
 
 /**
  * Parses an HTML page source
@@ -27,6 +30,8 @@ import com.example.parseurlsource.utils.DateConverter;
 @Component
 @Scope("prototype")
 public class JsoupUrlParser extends UrlParser {
+
+	private static final Logger logger = LoggerFactory.getLogger(AgdqScheduleView.class);
 
 	@Inject
 	private DateConverter dateConverter;
@@ -57,16 +62,17 @@ public class JsoupUrlParser extends UrlParser {
 	 * @throws IOException
 	 */
 	public List<AgdqSchedule> getScheduleItems(Document doc) throws HttpStatusException, IOException {
-
 		boolean isFirstRowProcessed = false;
-
 		List<AgdqSchedule> agdqSchedules = new ArrayList<AgdqSchedule>();
 
 		Element elementsByTag = doc.getElementsByTag("table").get(0);
+		logger.debug(String.format("Table fetched from source: %S", elementsByTag.childNodeSize() > 0));
 		Elements scheduleRows = elementsByTag.getElementsByTag("tr");
+		logger.debug(String.format("Table rows fetched from table: %S", scheduleRows.size() > 0));
 
 		for (Element row : scheduleRows) {
 
+			// Skipping first row, because it is the header of the table
 			if (isFirstRowProcessed) {
 				List<String> temp = new ArrayList<String>();
 				Elements cells = row.getElementsByTag("td");
@@ -86,8 +92,9 @@ public class JsoupUrlParser extends UrlParser {
 				as.setPrizes(temp.get(6));
 
 				agdqSchedules.add(as);
+				logger.trace("Added [%s, %s, %s, %s, %s, %s, %s] to schedule", as.getStartTime(), as.getGame(), as.getRunners(), as.getRunTime(),
+						as.getDetails(), as.getCommentators(), as.getPrizes());
 			}
-
 			isFirstRowProcessed = true;
 		}
 		return agdqSchedules;

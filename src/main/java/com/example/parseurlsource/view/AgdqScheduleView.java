@@ -6,6 +6,8 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.jsoup.HttpStatusException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,8 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 public class AgdqScheduleView extends VerticalLayout implements View {
 
+	private static final Logger logger = LoggerFactory.getLogger(AgdqScheduleView.class);
+
 	@Inject
 	private AgdqScheduleTable agdqScheduleTable;
 
@@ -52,6 +56,7 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 	public void PostConstruct() {
 		refreshTable();
 		initLayout();
+		logger.info("View initialization completed.");
 	}
 
 	@Override
@@ -61,15 +66,17 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 	private void refreshTable() {
 		try {
 			agdqScheduleTable.refresh();
+			logger.info("Table refreshed successfully.");
 		} catch (HttpStatusException e) {
-			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
+			logger.warn(String.format("A problem occured while trying to resolve the URL. Exception: %s", e));
+			Notification.show("A problem occured while trying to resolve the URL", Type.ERROR_MESSAGE);
 		} catch (IOException e) {
+			logger.warn(String.format("A problem occured while parsing source. Exception: %s", e));
 			e.printStackTrace();
 		}
 	}
 
 	private void initLayout() {
-
 		this.setSizeFull();
 
 		menuLayout = new HorizontalLayout();
@@ -90,26 +97,13 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 
 	private void initButtons() {
 		refreshTable = new Button("Refresh table");
-
 		refreshTable.addClickListener(new ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				updateTable();
+				refreshTable();
+				Notification.show("Table refreshed!", Type.HUMANIZED_MESSAGE);
 			}
 		});
 	}
-
-	private void updateTable() {
-		try {
-			agdqScheduleTable.refresh();
-			Notification.show("Table refreshed!", Type.HUMANIZED_MESSAGE);
-		} catch (HttpStatusException e) {
-			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
-		} catch (IOException e) {
-			Notification.show("A problem occured while trying to resolve the URL: " + e, Type.ERROR_MESSAGE);
-			e.printStackTrace();
-		}
-	}
-
 }
