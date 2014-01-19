@@ -46,9 +46,11 @@ public class JsoupUrlParser extends UrlParser {
 	 * @throws IOException
 	 */
 	public Document setDoc() throws HttpStatusException, IOException {
+		logger.info(String.format("Connecting to %s", url));
 		Response response = Jsoup.connect(url).ignoreContentType(true)
 				.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0").referrer("http://www.google.com")
 				.timeout(12000).followRedirects(true).execute();
+		logger.info(String.format("Connected to %s, response set: %s", url, response != null));
 		return response.parse();
 	}
 
@@ -103,5 +105,6 @@ public class JsoupUrlParser extends UrlParser {
 	@Override
 	public void setUrl(String url) {
 		this.url = url;
+		logger.debug(String.format("URL set to: %s", this.url));
 	}
 }

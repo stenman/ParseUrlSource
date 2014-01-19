@@ -15,7 +15,7 @@ import com.vaadin.data.util.IndexedContainer;
  * Contains AGDQSchedule data
  * 
  * @author Roger
- *
+ * 
  */
 @Component
 @Scope("prototype")
@@ -23,10 +23,9 @@ import com.vaadin.data.util.IndexedContainer;
 public class AgdqScheduleContainer extends IndexedContainer {
 
 	private static final Logger logger = LoggerFactory.getLogger(AgdqScheduleContainer.class);
-	
+
 	public AgdqScheduleContainer() {
 		addProperties();
-		logger.info("Properties added to container.");
 	}
 
 	/**
@@ -40,6 +39,7 @@ public class AgdqScheduleContainer extends IndexedContainer {
 		this.addContainerProperty("details", String.class, "N/A");
 		this.addContainerProperty("commentators", String.class, "N/A");
 		this.addContainerProperty("prizes", String.class, "N/A");
+		logger.info("Properties added to container.");
 	}
 
 	/**
@@ -64,6 +64,7 @@ public class AgdqScheduleContainer extends IndexedContainer {
 			getContainerProperty(itemId, "commentators").setValue(agdqSchedule.getCommentators());
 			getContainerProperty(itemId, "prizes").setValue(agdqSchedule.getPrizes());
 		}
+		logger.debug("Items added to container successfully.");
 	}
 
 }

@@ -39,7 +39,7 @@ public class DateConverter {
 			cal.add(Calendar.HOUR_OF_DAY, 6);
 			return cal.getTime();
 		} catch (ParseException pe) {
-			logger.debug(String.format("Failed to convert String to Date. Exception: %s", pe));
+			logger.warn(String.format("Failed to convert String to Date. Exception: %s", pe));
 		}
 		return null;
 

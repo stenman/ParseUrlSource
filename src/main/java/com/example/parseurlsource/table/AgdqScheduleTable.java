@@ -86,11 +86,9 @@ public class AgdqScheduleTable extends FilterTable {
 	 */
 	public void refresh() throws HttpStatusException, IOException {
 		jsoupUrlParser.setUrl(URL);
-		logger.debug(String.format("URL set to: %s", URL));
 		Document doc = jsoupUrlParser.setDoc();
 		logger.debug(String.format("Jsoup Document set: %s", doc != null));
 		agdqScheduleContainer.addItems(jsoupUrlParser.getScheduleItems(doc));
-		logger.debug("Table refreshed successfully.");
 
 		activateColorMarkingOfRows();
 	}

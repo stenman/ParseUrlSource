@@ -65,6 +65,7 @@ public class AgdqScheduleView extends VerticalLayout implements View {
 
 	private void refreshTable() {
 		try {
+			logger.info("Refreshing table...");
 			agdqScheduleTable.refresh();
 			logger.info("Table refreshed successfully.");
 		} catch (HttpStatusException e) {
