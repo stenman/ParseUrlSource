@@ -54,15 +54,19 @@ public class AgdqScheduleContainer extends IndexedContainer {
 		this.removeAllContainerFilters();
 		this.removeAllFilters();
 
-		for (AgdqSchedule agdqSchedule : agdqSchedules) {
-			Object itemId = addItem();
-			getContainerProperty(itemId, "startTime").setValue(agdqSchedule.getStartTime());
-			getContainerProperty(itemId, "game").setValue(agdqSchedule.getGame());
-			getContainerProperty(itemId, "runners").setValue(agdqSchedule.getRunners());
-			getContainerProperty(itemId, "runTime").setValue(agdqSchedule.getRunTime());
-			getContainerProperty(itemId, "details").setValue(agdqSchedule.getDetails());
-			getContainerProperty(itemId, "commentators").setValue(agdqSchedule.getCommentators());
-			getContainerProperty(itemId, "prizes").setValue(agdqSchedule.getPrizes());
+		try {
+			for (AgdqSchedule agdqSchedule : agdqSchedules) {
+				Object itemId = addItem();
+				getContainerProperty(itemId, "startTime").setValue(agdqSchedule.getStartTime());
+				getContainerProperty(itemId, "game").setValue(agdqSchedule.getGame());
+				getContainerProperty(itemId, "runners").setValue(agdqSchedule.getRunners());
+				getContainerProperty(itemId, "runTime").setValue(agdqSchedule.getRunTime());
+				getContainerProperty(itemId, "details").setValue(agdqSchedule.getDetails());
+				getContainerProperty(itemId, "commentators").setValue(agdqSchedule.getCommentators());
+				getContainerProperty(itemId, "prizes").setValue(agdqSchedule.getPrizes());
+			}
+		} catch (NullPointerException npe) {
+			logger.debug("Items not added to container. Inparameter was null.");
 		}
 		logger.debug("Items added to container successfully.");
 	}
